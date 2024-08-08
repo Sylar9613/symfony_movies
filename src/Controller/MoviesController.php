@@ -8,7 +8,7 @@ use Symfony\Component\Routing\Attribute\Route;
 
 class MoviesController extends AbstractController
 {
-    #[Route('/movies', name: 'app_movies')]
+    #[Route('/movies', name: 'app_movies', methods: ['GET','HEAD'])]
     public function index(): JsonResponse
     {
         return $this->json([

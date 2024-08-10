@@ -23,4 +23,16 @@ class MoviesController extends AbstractController
             'movies' => $movies
         ]);
     }
+
+    #[Route('/movies/{id}', name: 'app_movie', methods: ['GET'])]
+    public function show(int $id) : Response {
+        //dd($id);
+        $movie = $this->entityManager->getRepository(Movie::class)->find($id);
+        if(!$movie){
+            throw $this->createNotFoundException('Película no encontrada');
+        }
+        return $this->render('movies/show.html.twig',[
+            'movie' => $movie
+        ]);
+    }
 }

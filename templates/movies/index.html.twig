@@ -16,7 +16,7 @@
         <div class="grid grid-cols-3 gap-4">
             {% for movie in movies %}
                 <div class="bg-white rounded-lg shadow-lg overflow-hidden relative">
-                    <a href="#">
+                    <a href="{{ path('app_movie', {id: movie.id}) }}">
                         <img src="{{ movie.poster }}" alt="{{ movie.title }}" class="w-full h-56 object-cover object-center">
                     </a>
                     <div class="px-4 py-4">
@@ -32,7 +32,7 @@
                         <a href="#" class="bg-yellow-500 hover:bg-yellow-700 text-white font-bold py-2 px-4 rounded-l">
                             <i class="fa fa-edit"></i> Edit
                         </a>
-                        <a href="#" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r">
+                        <a href="{{ path('app_movie', {id: movie.id}) }}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded-r">
                             <i class="fa fa-eye"></i> View
                         </a>
                     </div>

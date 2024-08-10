@@ -18,7 +18,9 @@ class MoviesController extends AbstractController
     public function index(): Response
     {
         $movies = $this->entityManager->getRepository(Movie::class)->findAll();
-        dd($movies);
-        return $this->render('movies/index.html.twig');
+        //dd($movies);
+        return $this->render('movies/index.html.twig',[
+            'movies' => $movies
+        ]);
     }
 }

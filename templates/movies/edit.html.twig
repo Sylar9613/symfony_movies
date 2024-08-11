@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Modificar Película{% endblock %}
+
+{% block body %}
+    <div class="container mx-auto px-4 py-8">
+        <div class="bg-gray-200 rounded-lg shadow-lg overflow-hidden relative">
+            <div class="px-6 py-4">
+                <div class="mb-6">
+                    <i class="fa fa-film"></i> <strong>Editar Película</strong>
+                </div>
+                
+                {{ form_start(form) }}
+
+                {{ form_widget(form) }}
+
+                <div class="flex justify-between my-3">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-lg">
+                        <i class="fa fa-save"></i> Guardar
+                    </button>
+                    <a href="{{ path('app_movies') }}" class="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded-lg">
+                        Atrás
+                    </a>
+                </div>
+                {{ form_end(form) }}
+                
+            </div>    
+        </div>
+    </div>
+{% endblock %}

@@ -56,5 +56,26 @@ class MoviesController extends AbstractController
         ]);
     }
 
-    
+    #[Route('/movies/edit/{id}', name: 'app_movie_edit', methods: ['GET','POST'])]
+    public function edit(int $id, Request $request) : Response {
+        //Obtain the movie
+        $movie = $this->entityManager->getRepository(Movie::class)->find($id);
+        if (!$movie) {
+            throw $this->createNotFoundException('Película no encontrada');
+        }
+        //Create the form, $movie already data in
+        $form = $this->createForm(MovieType::class, $movie);
+        $form->handleRequest($request);
+
+        //Se comprueba si se ha enviado el form y es valido
+        if ($form->isSubmitted() && $form->isValid()) {
+            $this->entityManager->persist($movie);
+            $this->entityManager->flush();
+            return($this->redirectToRoute('app_movie',['id'=>$movie->getId()]));
+        }
+
+        return $this->render('movies/edit.html.twig',[
+            'form' => $form->createView(),
+        ]);
+    }
 }

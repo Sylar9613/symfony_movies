@@ -78,4 +78,24 @@ class MoviesController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
+
+    #[Route('/movies/{id}/delete', name: 'app_movie_delete', methods: ['POST'])]
+    public function delete(int $id, Request $request) : Response {
+        // Recuperando el valor del token
+        $submittedToken = $request->request->get('token');
+        if (!$this->isCsrfTokenValid('borrar_pelicula', $submittedToken)) {
+            return $this->redirectToRoute('app_movies');
+        }
+
+        //dd($id);
+        $movie = $this->entityManager->getRepository(Movie::class)->find($id);
+        if(!$movie){
+            throw $this->createNotFoundException('Película no encontrada');
+        }
+
+        $this->entityManager->remove($movie);
+        $this->entityManager->flush();
+        
+        return $this->redirectToRoute('app_movies');
+    }
 }

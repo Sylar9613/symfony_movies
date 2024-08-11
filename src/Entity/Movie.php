@@ -5,8 +5,11 @@ namespace App\Entity;
 use App\Repository\MovieRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 #[ORM\Entity(repositoryClass: MovieRepository::class)]
+#[UniqueEntity(fields:['title'], message:'Esa película ya está insertada')]
 class Movie
 {
     #[ORM\Id]
@@ -15,29 +18,43 @@ class Movie
     private ?int $id = null;
 
     #[ORM\Column(length: 120)]
+    #[Assert\NotBlank(message:'El título no puede estar vacío')]
+    #[Assert\Length(max:120, maxMessage:'El título no puede ser mayor de {{ limit }} letras')]
     private ?string $title = null;
 
-    #[ORM\Column(length: 200)]
+    #[ORM\Column(length: 2000)]
+    #[Assert\NotBlank(message:'La descripción no puede estar vacía')]
+    #[Assert\Length(max:2000, maxMessage:'El descripción no puede ser mayor de {{ limit }} letras')]
     private ?string $description = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:'La duración no puede estar vacía')]
+    #[Assert\Positive(message:'La duración tiene que ser un número mayor que 0')]
     private ?int $runtime = null;
 
     #[ORM\Column]
+    #[Assert\NotBlank(message:'El presupuesto no puede estar vacío')]
+    #[Assert\Positive(message:'El presupuesto tiene que ser un número mayor que 0')]
     private ?int $budget = null;
 
     #[ORM\Column(length: 250)]
+    #[Assert\NotBlank(message:'El cartel no puede estar vacío')]
+    #[Assert\Length(max:250, maxMessage:'El cartel no puede ser mayor de {{ limit }} letras')]
     private ?string $poster = null;
 
     #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[Assert\NotBlank(message:'La fecha de estreno no puede estar vacía')]
+    #[Assert\Type(type:'DateTimeInterface', message:'La fecha del estreno debe ser una fecha válida')]
     private ?\DateTimeInterface $release_date = null;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message:'El género no puede estar vacío')]
     private ?Genre $genre = null;
 
     #[ORM\ManyToOne(inversedBy: 'movies')]
     #[ORM\JoinColumn(nullable: false)]
+    #[Assert\NotBlank(message:'El país no puede estar vacío')]
     private ?Country $country = null;
 
     public function getId(): ?int
